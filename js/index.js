@@ -4,7 +4,9 @@ This file contains all the functionality specific to the index.html (start page 
 
 */
 
+//Remote allows us to speak to the global process
 var remote = require('remote'),
+	//Dialog helps us get the file selection dialog
 	dialog = remote.require('dialog');
 
 var openFolder = remote.getGlobal('openFolder');

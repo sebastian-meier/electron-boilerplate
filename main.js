@@ -18,10 +18,10 @@ global.settings_path = app.getPath('userData') + '/settings.json';
 //Main Window
 var mainWindow = null;
 
-//Note Window
-var noteWindow = null;
+//Secondary Window
+var secondWindow = null;
 
-//Note Window
+//Error Window
 var errorWindow = null;
 
 // Quit when all windows are closed.
@@ -91,8 +91,6 @@ app.on('ready', function() {
 
 });
 
-//!!TODO: KeyCommands (command+o, command+f, arrow keys, return key, space key, esc key), Menu Structure (), Settings?
-
 global.updateSettings = function(){
 	try {
 		fs.writeFileSync(global.settings_path, JSON.stringify(global.settings) , 'utf-8');
@@ -154,9 +152,12 @@ var menuTemplate = [
 					}
 				})(),
 				click: function(item, focusedWindow){
+					//If you have multiple windows and you just want the focused window to become full screen use this...
 					/*if(focusedWindow){
 						focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
 					}*/
+
+					//If you want something like a presentation mode with two windows in fullscreen on each display use this...
 
 					//For this to work on OS X you need to go to System Preferences > Spaces > Enable different spaces for external displays, otherwise you will get a black screen on the second display
 					if(mainWindow){
@@ -165,9 +166,9 @@ var menuTemplate = [
 							state = false;
 						}
 						mainWindow.setFullScreen(state);
-						if(noteWindow){
+						if(secondWindow){
 							//Make sure the note window is on the secondary display
-							noteWindow.setFullScreen(state);
+							secondWindow.setFullScreen(state);
 						}
 					}
 				}
@@ -283,15 +284,15 @@ global.initApp = function(){
 	}
 
 	if (externalDisplay) {
-		noteWindow = new BrowserWindow({
+		secondWindow = new BrowserWindow({
 			x: externalDisplay.bounds.x + 50,
 			y: externalDisplay.bounds.y + 50,
 			width:200,
 			height:200,
-			title: 'Frontal:Notes'
+			title: 'Boilerplate:Second Window'
 		});
 
-		noteWindow.loadUrl('file://' + __dirname + '/notes.html');
+		secondWindow.loadUrl('file://' + __dirname + '/index_second_screen.html');
 	}
 
 	ElectronScreen.on('display-added', function(event, newDisplay){
@@ -312,7 +313,7 @@ global.initApp = function(){
 		height: 600,
 		x:0,
 		y:0,
-		title:"Frontal"
+		title:"Boilerplate"
 	});
 
 	//mainWindow.openDevTools();
@@ -327,9 +328,6 @@ global.initApp = function(){
 
 //Validate folder and open it
 global.openFolder = function(path){
-	//Validate if selected folder contains all required elements for a frontal slide folder
-	//Set current slideshow path to this path
-	//Switch to presentation mode if not already in presentation mode
 	global.error("File dropped",path);
 }
 
@@ -354,7 +352,7 @@ global.error = function(str, e){
 			width: 400,
 			height: 400,
 			center:true,
-			title:"Frontal:Error"
+			title:"Boilerplate:Error"
 		});
 	}
 
