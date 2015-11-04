@@ -12,3 +12,14 @@ The boilerplate in this repo is not as advanced, this boilerplate is more like a
 - Handle Drag&Drop on your app
 - Handle File-Drops on you app icon
 - Have a global error function that opens a new window and displays the error
+
+After having installed all the necessary tools from electron, you will need these two commands from your command-line-interface to get going:
+
+```
+//go to the boilerplate folder
+cd /to-your-folder
+//execute your electron app
+electron .
+//package it as a real app (this here for example is an OS X app)
+electron-packager /to-your-folder AppName --platform=darwin --arch=x64 --version=0.34.0
+```
